@@ -1,4 +1,4 @@
-package com.doctorapp.util;
+package com.upwork.utility;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,10 +7,10 @@ import java.sql.Statement;
 
 public class DbConnection {
 	static Connection connection;
-	public static Connection getConnection() {
+	Statement statement;
+	public static Connection openConnection() {
 		
-		
-		String url="jdbc:mysql://localhost:3306/doctordb";
+		String url="jdbc:mysql://localhost:3306/upworkdb";
 		String username="root";
 		String password="baba";
 		try {

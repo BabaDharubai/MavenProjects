@@ -4,7 +4,7 @@ public class Queries {
 	
 	public static final String CREATEQUERY="create table doctor(doctorId Integer PRIMARY KEY auto_increment,doctorName varchar(30),speciality varchar(30),experience INTEGER,fees double,startTime Timestamp,endTime Timestamp)";
 	
-	public static final String INSERTQUERY="insert into doctor(doctorName,speciality,experience,fees,startTime,endTime) values(?,?,?,?,?,?)";
+	public static final String INSERTQUERY="insert into doctor values(doctorName,speciality,experience,fees,startTime,endTime) values(?,?,?,?,?,?)";
 	
 	public static final String GETBYID="select * from doctor where doctorId=?";
 	
