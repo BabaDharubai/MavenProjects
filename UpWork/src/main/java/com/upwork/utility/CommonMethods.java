@@ -74,6 +74,7 @@ public class CommonMethods {
 			skill=sc.nextLine();
 			System.out.println("Enter cost");
 			double cost=sc.nextDouble();
+			sc.nextLine();
 			freelancerList=freelancerService.getByCatSkillCostContain(category, skill, cost);
 			break;
 		case 8:
@@ -100,7 +101,7 @@ public class CommonMethods {
 		default:
 			System.out.println("Invalid Entry");
 		}
-		sc.close();
+		//sc.close();
 		return freelancerList;
 		
 	}

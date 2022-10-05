@@ -25,7 +25,6 @@ public class FreelancerMapper implements IRowMapper{
 				freelancerList.add(freelancer);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return freelancerList;

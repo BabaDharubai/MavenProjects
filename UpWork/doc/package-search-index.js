@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.upwork.dao"},{"l":"com.upwork.exception"},{"l":"com.upwork.main"},{"l":"com.upwork.model"},{"l":"com.upwork.service"},{"l":"com.upwork.utility"}]

@@ -2,7 +2,7 @@ package com.upwork.utility;
 
 public class Queries {
 	
-	public static final String QUERYADD="insert into freelancer(freelancerName,category,skill,experience,cost,type,location) values(?,?,?,?,?,?,?)";
+	public static final String QUERYADD="insert into freelancer values(?,?,?,?,?,?,?,?)";
 	
 	public static final String QUERYDELETE="delete from freelancer where freelancerId=?";
 	
@@ -35,5 +35,9 @@ public class Queries {
 	public static final String QUERYCHANGEPASSWORD="update user set password=? where userName=?";
 	
 	public static final String QUERYADDUSER="insert into user(userName,name,mobile,email,password,city,type) values(?,?,?,?,?,?,?)";
+	
+	public static final String QUERYBOOKING="insert into bookings values(?,?,?,?,?,?,?,?,?)";
+	
+	public static final String QUERYDELETEUSER="delete from user where userId=?";
 	
 }

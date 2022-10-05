@@ -1,5 +1,9 @@
 package com.upwork.model;
 
+/**
+ * @author BabaFakruddinDharubai
+ *
+ */
 public class Freelancer implements Comparable<Freelancer>{
 	private Integer freelancerId;
 	private String freelancerName;
@@ -8,7 +12,7 @@ public class Freelancer implements Comparable<Freelancer>{
 	private String type;
 	private String category;
 	private double cost;
-	private String skill; //WebDeveloper, ContentWriter
+	private String skill;
 	
 	
 	public Freelancer(){

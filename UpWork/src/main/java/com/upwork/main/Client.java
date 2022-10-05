@@ -11,13 +11,21 @@ import com.upwork.model.User;
 import com.upwork.service.FreelancerServiceImpl;
 import java.util.Scanner;
 
+/**
+ * @author BabaFakruddinDharubai
+ *
+ */
 public class Client {
 	public static void main(String[] args) {
+		
 		IFreelancerService freelancerService = new FreelancerServiceImpl();
 		IUserService userService = new UserServiceImpl();
 		System.out.println("Enter your response");
-
+		
+		int logOut=0;
 		Scanner sc = new Scanner(System.in);
+		System.out.println("Welcome to UpWork a freelancing ocean");
+		do {
 		System.out.println("1.Register\n2.Login");
 		int type = sc.nextInt();
 		sc.nextLine();
@@ -38,19 +46,29 @@ public class Client {
 			System.out.println("Enter city");
 			String city = sc.nextLine();
 			user.setCity(city);
-			System.out.println("Enter type freelancer or employer");
-			String type1 = sc.nextLine();
-			user.setType(type1);
+			System.out.println("Enter type : freelancer or employer");
+			String userType = sc.nextLine();
+			user.setType(userType);
 			System.out.println("Enter UserName ");
 			String userName = sc.nextLine();
 			user.setUserName(userName);
-			System.out.println(userService.register(user));
-
-			System.out.println("Enter your userName");
+			String password=userService.register(user);
+			System.out.println("Your Auto-generated password "+password);
+			System.out.println("Do you change your password\n1.yes\t2.No");
+			int changePass=sc.nextInt();
+			sc.nextLine();
+			if(changePass==1) {
+				System.out.println("Enter Your new password");
+				String newPassword=sc.nextLine();
+				userService.changePassword(user.getUserName(),newPassword);
+				System.out.println("Password updated");
+			}
+			System.out.println("Login\nEnter your userName");
 			userName = sc.nextLine();
 			System.out.println("Enter your password");
-			String password = sc.nextLine();
+			password = sc.nextLine();
 			user = userService.login(userName, password);
+			
 			if (user.getType().equalsIgnoreCase("freelancer")) {
 				System.out.println("Add freelancing Details");
 				Freelancer freelancer = new Freelancer();
@@ -80,6 +98,7 @@ public class Client {
 				freelancer.setCost(cost);
 				freelancer.setType(timings);
 				freelancerService.addFreelancer(freelancer);
+				System.out.println("Added your freelancer Details");
 			}
 			break;
 		case 2:
@@ -89,33 +108,41 @@ public class Client {
 			System.out.println("Enter your password");
 			password = sc.nextLine();
 			user = userService.login(userName, password);
-			if(user!=null) {
+			if (user != null) {
 				if (user.getType().equalsIgnoreCase("employer")) {
 					int loop = 0;
 					do {
-
 						System.out.println(
 								"1.Get By Category\n2.Get By Name\n3.Get By Skill\n4.Get By Category & Skill\n5.Get By Category, Skill & Type\n6.Get By Category & Experience\n7.Get Category, Skill & Cost\n8.Get By Category, Skill & Experience\n9.Get By Category & Location");
 						int recruiter = sc.nextInt();
 						sc.nextLine();
 						CommonMethods.getMethods(recruiter).forEach(System.out::println);
-						System.out.println("1.Continue\n0.Exit");
-						loop = sc.nextInt();
+						System.out.println("1.Continue\n2.Book Freelancer \n3.Exit");
+						int book=sc.nextInt();
 						sc.nextLine();
+						if (book == 2) {
+							System.out.println("Enter Freelancer ID");
+							int freelancerId = sc.nextInt();
+							sc.nextLine();
+							userService.bookFreelaner(user, freelancerId);
+							System.out.println("Booked freelancer");
+						}
 					} while (loop == 1);
 				} else if (user.getType().equalsIgnoreCase("freelancer")) {
 					System.out.println("1.update your profie\n2.delete account\n3.Roam around website");
 					int option = sc.nextInt();
+					sc.nextLine();
 					switch (option) {
 					case 1:
 						System.out.println(
-								"Enter your updating parameter\n1.cost\n2.skill\n3.Experience\n4.Delete your Account");
+								"Enter your updating parameter\n1.cost\n2.skill\n3.Experience");
 						option = sc.nextInt();
 						sc.nextLine();
 						switch (option) {
 						case 1:
 							System.out.println("Enter cost");
 							double cost = sc.nextDouble();
+							sc.nextLine();
 							freelancerService.updateFreelancer(user.getUserId(), cost);
 							System.out.println("Updated");
 							break;
@@ -132,6 +159,8 @@ public class Client {
 							freelancerService.updateFreelancer(user.getUserId(), experience);
 							System.out.println("Experience updated");
 							break;
+						default:
+							System.out.println("Invalid input");
 						}
 						break;
 					case 2:
@@ -145,6 +174,7 @@ public class Client {
 					case 3:
 						int loop = 0;
 						do {
+
 							System.out.println(
 									"1.Get By Category\n2.Get By Name\n3.Get By Skill\n4.Get By Category & Skill\n5.Get By Category, Skill & Type\n6.Get By Category & Experience\n7.Get Category, Skill & Cost\n8.Get By Category, Skill & Experience\n9.Get By Category & Location");
 
@@ -156,10 +186,18 @@ public class Client {
 							sc.nextLine();
 						} while (loop == 1);
 						break;
+					default:
+						System.out.println("Invalid input");
 					}
 				}
 			}
+			default:
+				System.out.println("Invalid input");
 		}
+		System.out.println("1.LogOut\n0.Exit");
+		logOut=sc.nextInt();
+		sc.nextLine();
+		}while(logOut==1);
 		sc.close();
 
 	}

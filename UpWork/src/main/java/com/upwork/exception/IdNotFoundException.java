@@ -1,5 +1,9 @@
 package com.upwork.exception;
 
+/**
+ * @author BabaFakruddinDharubai
+ *
+ */
 public class IdNotFoundException extends RuntimeException {
 
 	/**

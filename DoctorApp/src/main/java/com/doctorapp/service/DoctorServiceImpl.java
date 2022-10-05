@@ -13,10 +13,20 @@ import com.doctorapp.exception.IdNotFoundException;
 import com.doctorapp.model.Doctor;
 
 
+/**
+ * @author BabaFakruddinDharubai
+ *
+ */
+
 public class DoctorServiceImpl implements IDoctorService {
 	
 	IDoctorDao service=new DoctorDaoImpl();
 	List<Doctor> doctorList=new ArrayList<>();
+	
+	
+	/**
+	 * @param doctor
+	 */
 	@Override
 	public void addDoctor(Doctor doctor) {
 		// TODO Auto-generated method stub
@@ -24,6 +34,12 @@ public class DoctorServiceImpl implements IDoctorService {
 		
 	}
 
+	/**
+	 * @param doctorId
+	 * @param fees
+	 * @return
+	 * @throws IdNotFoundException
+	 */
 	@Override
 	public boolean updateDoctor(int doctorId, double fees) throws IdNotFoundException{
 		// TODO Auto-generated method stub
@@ -34,6 +50,11 @@ public class DoctorServiceImpl implements IDoctorService {
 		
 	}
 
+	/**
+	 * @param doctorId
+	 * @return
+	 * @throws IdNotFoundException
+	 */
 	@Override
 	public Doctor getById(int doctorId) throws IdNotFoundException{
 		// TODO Auto-generated method stub
@@ -45,6 +66,11 @@ public class DoctorServiceImpl implements IDoctorService {
 			return doctor;
 	}
 
+	/**
+	 * @param doctorId
+	 * @return
+	 * @throws IdNotFoundException
+	 */
 	@Override
 	public boolean deleteDoctor(int doctorId) throws IdNotFoundException{
 		// TODO Auto-generated method stub
@@ -55,6 +81,10 @@ public class DoctorServiceImpl implements IDoctorService {
 		
 	}
 
+	/**
+	 * @return
+	 * @throws DoctorNotFoundException
+	 */
 	@Override
 	public List<Doctor> getAllDoctors() throws DoctorNotFoundException {
 		// TODO Auto-generated method stub
@@ -66,6 +96,11 @@ public class DoctorServiceImpl implements IDoctorService {
 			return doctorList;
 	}
 
+	/**
+	 * @param speciality
+	 * @return
+	 * @throws DoctorNotFoundException
+	 */
 	@Override
 	public List<Doctor> getBySpeciality(String speciality) throws DoctorNotFoundException{
 		// TODO Auto-generated method stub
@@ -79,6 +114,12 @@ public class DoctorServiceImpl implements IDoctorService {
 		
 	}
 
+	/**
+	 * @param speciality
+	 * @param experience
+	 * @return
+	 * @throws DoctorNotFoundException
+	 */
 	@Override
 	public List<Doctor> getBySpecialityAndExp(String speciality, int experience) throws DoctorNotFoundException{
 		// TODO Auto-generated method stub
@@ -91,6 +132,12 @@ public class DoctorServiceImpl implements IDoctorService {
 		}
 	}
 
+	/**
+	 * @param speciality
+	 * @param fees
+	 * @return
+	 * @throws DoctorNotFoundException
+	 */
 	@Override
 	public List<Doctor> getBySpecialityAndFees(String speciality, double fees) throws DoctorNotFoundException{
 		// TODO Auto-generated method stub
@@ -103,6 +150,11 @@ public class DoctorServiceImpl implements IDoctorService {
 		}
 	}
 
+	/**
+	 * @param startTime
+	 * @return
+	 * @throws DoctorNotFoundException
+	 */
 	@Override
 	public List<Doctor> getByAvailable(LocalDateTime startTime) throws DoctorNotFoundException{
 		// TODO Auto-generated method stub

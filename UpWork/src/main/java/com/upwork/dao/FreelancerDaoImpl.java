@@ -15,19 +15,23 @@ import com.upwork.utility.Queries;
 
 public class FreelancerDaoImpl implements IFreelancerDao{
 	IRowMapper rowMapper=new FreelancerMapper();
+	/**
+	 * @param freelancer for passing freelancer to add into database
+	 */
 	@Override
 	public void addFreelancer(Freelancer freelancer) {
 
 		try(Connection connection=DbConnection.openConnection();
 				PreparedStatement statement=connection.prepareStatement(Queries.QUERYADD);)
 		{
-			statement.setString(1, freelancer.getFreelancerName());
-			statement.setString(2,freelancer.getCategory());
-			statement.setString(3, freelancer.getSkill());
-			statement.setInt(4,freelancer.getExperience());
-			statement.setDouble(5,freelancer.getCost());
-			statement.setString(6, freelancer.getType());
-			statement.setString(7,freelancer.getLocation());
+			statement.setInt(1,freelancer.getFreelancerId());
+			statement.setString(2, freelancer.getFreelancerName());
+			statement.setString(3,freelancer.getCategory());
+			statement.setString(4, freelancer.getSkill());
+			statement.setInt(5,freelancer.getExperience());
+			statement.setDouble(6,freelancer.getCost());
+			statement.setString(7, freelancer.getType());
+			statement.setString(8,freelancer.getLocation());
 			statement.execute();
 
 		} catch (SQLException e) {
@@ -36,6 +40,11 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 
 	}
 
+	/**
+	 * @param freelancerId used to delete the freelancer in the database
+	 * @return 1-if freelancer deleted from the table
+	 *			0-if freelancer if not deleted from table
+	 */
 	@Override
 	public int deleteFreelancer(int freelancerId) {
 
@@ -52,6 +61,12 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return result;
 	}
 
+	/**
+	 * @param freelancerId to check the freelancer with required Id
+	 * @param cost to update the skill of freelancer
+	 * @return	1-if the freelancer is updated
+	 *			0-if the freelancer is not found/not updated
+	 */
 	@Override
 	public int updateFreelancer(int freelancerId, double cost) {
 
@@ -68,6 +83,12 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return result;
 	}
 	
+	/**
+	 * @param freelancerId to check the freelancer with required Id
+	 * @param skill to update the skill of freelancer
+	 * @return	1-if the freelancer is updated
+	 *			0-if the freelancer is not found/not updated
+	 */
 	@Override
 	public int updateFreelancer(int freelancerId, String skill) {
 		int result=0;
@@ -83,6 +104,12 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return result;
 	}
 
+	/**
+	 * @param freelancerId to check the freelancer with required Id
+	 * @param experience to update the skill of freelancer
+	 * @return	1-if the freelancer is updated
+	 *			0-if the freelancer is not found/not updated
+	 */
 	@Override
 	public int updateFreelancer(int freelancerId, int experience) {
 		int result=0;
@@ -98,6 +125,11 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return result;
 	}
 
+	/**
+	 * @param freelancerId to check the freelancer with required Id
+	 * @return freelancer-if the freelancer is available in the table
+	 * 			null	-if the freelancer is not found
+	 */
 	@Override
 	public Freelancer findById(int freelancerId) {
 		Freelancer freelancer=null;
@@ -132,6 +164,11 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return freelancer;
 	}
 
+	/**
+	 * @param category to find the freelancers based on category
+	 * @return freelancers List-if found with required category
+	 * 			emptyList-if there are no freelancers found
+	 */
 	@Override
 	public List<Freelancer> findByCategoryContain(String category) {
 		List<Freelancer> freelancerList=new ArrayList<>();
@@ -149,6 +186,11 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return freelancerList;
 	}
 
+	/**
+	 * @param skill to search freelancer based on skill
+	 * @return freelancers List-if found with required parameters
+	 * 			emptyList-if there are no freelancers found
+	 */
 	@Override
 	public List<Freelancer> findBySkillContain(String skill) {
 		List<Freelancer> freelancerList=new ArrayList<>();
@@ -172,6 +214,11 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return freelancerList;
 	}
 
+	/**
+	 * @param name to search freelancer based on name
+	 * @return freelancers List-if found with required parameters
+	 * 			emptyList-if there are no freelancers found
+	 */
 	@Override
 	public List<Freelancer> findByName(String name) {
 		List<Freelancer> freelancerList=new ArrayList<>();
@@ -195,6 +242,12 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return freelancerList;
 	}
 
+	/**
+	 * @param category to search based on category
+	 * @param skill to search freelancer based on skill
+	 * @return freelancers List-if found with required parameters
+	 * 			emptyList-if there are no freelancers found
+	 */
 	@Override
 	public List<Freelancer> findByCatSkillContain(String category, String skill) {
 		List<Freelancer> freelancerList=new ArrayList<>();
@@ -219,6 +272,13 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return freelancerList;
 	}
 
+	/**
+	 * @param category to search based on category
+	 * @param skill to search freelancer based on skill
+	 * @param type to search based on full-time and part-time
+	 * @return freelancers List-if found with required parameters
+	 * 			emptyList-if there are no freelancers found
+	 */
 	@Override
 	public List<Freelancer> findByCatSkillTypeContain(String category, String skill, String type) {
 		List<Freelancer> freelancerList=new ArrayList<>();
@@ -243,6 +303,12 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return freelancerList;
 	}
 
+	/**
+	 * @param category to search based on category
+	 * @param experience to search based on experience
+	 * @return freelancer List-if found with required parameters
+	 * 			empty List-if no data found
+	 */
 	@Override
 	public List<Freelancer> findByCatExpContain(String category, int experience) {
 		List<Freelancer> freelancerList=new ArrayList<>();
@@ -266,6 +332,13 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return freelancerList;
 	}
 
+	/**
+	 * @param category to search based on category
+	 * @param skill to search based on skill
+	 * @param cost to search based on cost
+	 * @return reelancer List-if found with required parameters
+	 * 			empty List-if no data found
+	 */
 	@Override
 	public List<Freelancer> findByCatSkillCostContain(String category, String skill, double cost) {
 		List<Freelancer> freelancerList=new ArrayList<>();
@@ -290,6 +363,13 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return freelancerList;
 	}
 
+	/**
+	 * @param category to search based on category
+	 * @param skill to search based on skill
+	 * @param experience to search based on experience
+	 * @return reelancer List-if found with required parameters
+	 * 			empty List-if no data found
+	 */
 	@Override
 	public List<Freelancer> findByCatSkillExpContain(String category, String skill, int experience) {
 		List<Freelancer> freelancerList=new ArrayList<>();
@@ -313,6 +393,12 @@ public class FreelancerDaoImpl implements IFreelancerDao{
 		return freelancerList;
 	}
 
+	/**
+	 * @param category to search based on category
+	 * @param location to search based on location
+	 * @return reelancer List-if found with required parameters
+	 * 			empty List-if no data found
+	 */
 	@Override
 	public List<Freelancer> findByCatLocationContain(String category, String location) {
 		List<Freelancer> freelancerList=new ArrayList<>();

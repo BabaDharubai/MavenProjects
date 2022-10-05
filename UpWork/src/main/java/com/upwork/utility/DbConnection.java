@@ -17,7 +17,6 @@ public class DbConnection {
 			connection=DriverManager.getConnection(url,username,password);
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return connection;
@@ -28,7 +27,6 @@ public class DbConnection {
 			if(connection!=null)
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

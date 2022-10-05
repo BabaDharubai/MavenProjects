@@ -1,5 +1,9 @@
 package com.upwork.model;
 
+/**
+ * @author BabaFakruddinDharubai
+ *
+ */
 public enum Category {
 	IT("Development & IT"),
 	DESIGN("Design & Creative"),
@@ -11,6 +15,9 @@ public enum Category {
 	
 	
 	public String type;
+	/**
+	 * @param type to define the type of category
+	 */
 	private Category(String type) {
 		this.type = type;
 	}
