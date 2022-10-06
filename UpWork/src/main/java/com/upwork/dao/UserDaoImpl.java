@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.upwork.model.Freelancer;
 import com.upwork.model.User;
@@ -140,13 +142,65 @@ public class UserDaoImpl implements IUserDao {
 				statement.setDouble(7,freelancer.getCost());
 				statement.setInt(8, freelancer.getExperience());
 				statement.setString(9, freelancer.getLocation());
+				statement.setString(10, freelancer.getType());
 				result=statement.executeUpdate();
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				if(statement!=null)
+					statement.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result;
+	}
+
+	/**
+	 * @param user to serach booking details of employer
+	 * @return a list of freelancers if employer booked any freelancers in the past
+	 * 			empty List-if employer not booked any freelancer
+	 */
+	@Override
+	public List<Freelancer> bookingDetails(User user) {
+		// TODO Auto-generated method stub
+		ResultSet resultSet=null;
+		Freelancer freelancer=null;
+		List<Freelancer> freelancerList=new ArrayList<>();
+		try (Connection connection=DbConnection.openConnection();
+				PreparedStatement statement=connection.prepareStatement(Queries.QUERYBOOKINGDETAILS);){
+			statement.setString(1, user.getUserName());
+			statement.setInt(2, user.getUserId());
+			resultSet=statement.executeQuery();
+			while(resultSet.next()) {
+				freelancer=new Freelancer();
+				freelancer.setFreelancerId(resultSet.getInt(3));
+				freelancer.setFreelancerName(resultSet.getString(4));
+				freelancer.setCategory(resultSet.getString(5));
+				freelancer.setSkill(resultSet.getString(6));
+				freelancer.setCost(resultSet.getDouble(7));
+				freelancer.setExperience(resultSet.getInt(8));
+				freelancer.setLocation(resultSet.getString(9));
+				freelancer.setType(resultSet.getString(10));
+				freelancerList.add(freelancer);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				if(resultSet!=null)
+					resultSet.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return freelancerList;
 	}
 
 }

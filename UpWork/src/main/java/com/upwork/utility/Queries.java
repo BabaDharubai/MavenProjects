@@ -36,8 +36,10 @@ public class Queries {
 	
 	public static final String QUERYADDUSER="insert into user(userName,name,mobile,email,password,city,type) values(?,?,?,?,?,?,?)";
 	
-	public static final String QUERYBOOKING="insert into bookings values(?,?,?,?,?,?,?,?,?)";
+	public static final String QUERYBOOKING="insert into bookings values(?,?,?,?,?,?,?,?,?,?)";
 	
-	public static final String QUERYDELETEUSER="delete from user where userId=?";
+	public static final String QUERYBOOKINGDETAILS="select * from bookings where employeeName=? and employeeId=?";
+	
+	
 	
 }

@@ -1,8 +1,12 @@
 package com.upwork.service;
 
 
+import java.util.List;
+
+import com.upwork.exception.FreelancerNotFoundException;
 import com.upwork.exception.IdNotFoundException;
 import com.upwork.exception.UserNotFoundException;
+import com.upwork.model.Freelancer;
 import com.upwork.model.User;
 
 /**
@@ -38,4 +42,11 @@ public interface IUserService {
 	 * @throws IdNotFoundException if freelancer is not found
 	 */
 	int bookFreelaner(User user,int freelancerId) throws IdNotFoundException;
+	
+	/**
+	 * @param user to search the booked freelancer's based on the user details
+	 * @return freelancerList if freelancers were booked by the user
+	 * @throws FreelancerNotFoundException if user does not booked any freelanacers
+	 */
+	List<Freelancer> bookingDetails(User user) throws FreelancerNotFoundException;
 }

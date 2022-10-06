@@ -1,5 +1,8 @@
 package com.upwork.dao;
 
+import java.util.List;
+
+import com.upwork.model.Freelancer;
 import com.upwork.model.User;
 
 public interface IUserDao {
@@ -30,4 +33,11 @@ public interface IUserDao {
 	 * 			0-if the freelancer is not booked
 	 */
 	int bookFreelancer(User user,int freelancerId);
+	
+	/**
+	 * @param user to serach booking details of employer
+	 * @return a list of freelancers if employer booked any freelancers in the past
+	 * 			empty List-if employer not booked any freelancer
+	 */
+	List<Freelancer> bookingDetails(User user);
 }

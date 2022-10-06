@@ -1,9 +1,13 @@
 package com.upwork.service;
 
+import java.util.List;
+
 import com.upwork.dao.IUserDao;
 import com.upwork.dao.UserDaoImpl;
+import com.upwork.exception.FreelancerNotFoundException;
 import com.upwork.exception.IdNotFoundException;
 import com.upwork.exception.UserNotFoundException;
+import com.upwork.model.Freelancer;
 import com.upwork.model.User;
 
 /**
@@ -59,6 +63,20 @@ public class UserServiceImpl implements IUserService{
 	public int bookFreelaner(User user, int freelancerId) throws IdNotFoundException {
 		int result=userDao.bookFreelancer(user, freelancerId);
 		return result;
+	}
+
+	/**
+	 * @param user to search the booked freelancer's based on the user details
+	 * @return freelancerList if freelancers were booked by the user
+	 * @throws FreelancerNotFoundException if user does not booked any freelanacers
+	 */
+	@Override
+	public List<Freelancer> bookingDetails(User user) throws FreelancerNotFoundException {
+		// TODO Auto-generated method stub
+		List<Freelancer> freelancerList=userDao.bookingDetails(user);
+		if(freelancerList.isEmpty())
+			throw new FreelancerNotFoundException("freelancers are not booked");
+		return freelancerList;
 	}
 
 }
