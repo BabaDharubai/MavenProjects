@@ -8,8 +8,6 @@ import java.sql.Statement;
 public class DbConnection {
 	static Connection connection;
 	public static Connection getConnection() {
-		
-		
 		String url="jdbc:mysql://localhost:3306/doctordb";
 		String username="root";
 		String password="baba";
@@ -17,7 +15,6 @@ public class DbConnection {
 			connection=DriverManager.getConnection(url,username,password);
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return connection;
@@ -28,7 +25,6 @@ public class DbConnection {
 			if(connection!=null)
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -45,7 +45,6 @@ public class Reception {
 				LocalTime startLocalTime = LocalTime.parse(startTime);
 				LocalDateTime startLocalDateTime = LocalDateTime.of(startLocalDate, startLocalTime);
 
-				// endTime
 				System.out.println("Enter end Date as YYYY-MM-DD");
 				String endDate = sc.next();
 				LocalDate endLocalDate = LocalDate.parse(endDate);
@@ -55,7 +54,6 @@ public class Reception {
 				LocalDateTime endLocalDateTime = LocalDateTime.of(endLocalDate, endLocalTime);
 				service.addDoctor(new Doctor(doctorName, doctorId, speciality, fees, experience, startLocalDateTime,
 						endLocalDateTime));
-
 				break;
 			case 2:
 				System.out.println("Enter DoctorId and Updating fee");
@@ -99,7 +97,6 @@ public class Reception {
 				String time = sc.next();
 				LocalTime localTime = LocalTime.parse(time);
 				LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
-
 				service.getByAvailable(localDateTime).forEach(System.out::println);
 				break;
 
@@ -110,7 +107,6 @@ public class Reception {
 				fees = sc.nextDouble();
 				service.getBySpecialityAndFees(speciality, fees).forEach(System.out::println);
 				break;
-
 			default:
 				System.out.println("Invalid Entry");
 			}

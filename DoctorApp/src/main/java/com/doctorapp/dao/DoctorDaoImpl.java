@@ -14,30 +14,25 @@ import com.doctorapp.util.Queries;
 
 public class DoctorDaoImpl implements IDoctorDao {
 	
-	
-	
 	@Override
 	public void addDoctor(Doctor doctor) {
-		// TODO Auto-generated method stub
-		PreparedStatement ps=null;
+		PreparedStatement statement=null;
 		try {
-			ps=DbConnection.getConnection().prepareStatement(Queries.INSERTQUERY);
-			ps.setString(1,doctor.getDoctorName());
-			ps.setString(2, doctor.getSpeciality());
-			ps.setInt(3,doctor.getExperience());
-			ps.setDouble(4, doctor.getFees());
-			ps.setTimestamp(5, Timestamp.valueOf(doctor.getStartTime()));
-			ps.setTimestamp(6, Timestamp.valueOf(doctor.getEndTime()));
-			ps.execute();
+			statement=DbConnection.getConnection().prepareStatement(Queries.INSERTQUERY);
+			statement.setString(1,doctor.getDoctorName());
+			statement.setString(2, doctor.getSpeciality());
+			statement.setInt(3,doctor.getExperience());
+			statement.setDouble(4, doctor.getFees());
+			statement.setTimestamp(5, Timestamp.valueOf(doctor.getStartTime()));
+			statement.setTimestamp(6, Timestamp.valueOf(doctor.getEndTime()));
+			statement.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
-				if(ps!=null) 
-					ps.close();
+				if(statement!=null) 
+					statement.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -45,27 +40,23 @@ public class DoctorDaoImpl implements IDoctorDao {
 
 	@Override
 	public boolean updateDoctor(int doctorId, double fees) {
-		// TODO Auto-generated method stub
-		
-		PreparedStatement ps=null;
+		PreparedStatement statement=null;
 		int check;
 		boolean flag=false;
 		try {
-			ps=DbConnection.getConnection().prepareStatement(Queries.UPDATEQUERY);
-			ps.setDouble(1, fees);
-			ps.setInt(2,doctorId);
-			check=ps.executeUpdate();
+			statement=DbConnection.getConnection().prepareStatement(Queries.UPDATEQUERY);
+			statement.setDouble(1, fees);
+			statement.setInt(2,doctorId);
+			check=statement.executeUpdate();
 			if(check==1)
 				flag=true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
-				if(ps!=null)
-					ps.close();
+				if(statement!=null)
+					statement.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -75,63 +66,56 @@ public class DoctorDaoImpl implements IDoctorDao {
 
 	@Override
 	public Doctor getById(int doctorId) {
-		// TODO Auto-generated method stub
-		PreparedStatement ps=null;
-		
+		PreparedStatement statement=null;
+		Doctor doctor=null;
 		try {
-			ps=DbConnection.getConnection().prepareStatement(Queries.GETBYID);
-			ps.setInt(1, doctorId);
-			ResultSet rs=ps.executeQuery();
-			Doctor doctor=new Doctor();
-			while(rs.next()) {
-				
-				doctor.setDoctorId(rs.getInt(1));
-				doctor.setDoctorName(rs.getString(2));
-				doctor.setSpeciality(rs.getString(3));
-				doctor.setExperience(rs.getInt(4));
-				doctor.setFees(rs.getDouble(5));
-				doctor.setStartTime(rs.getTimestamp(6).toLocalDateTime());
-				doctor.setEndTime(rs.getTimestamp(7).toLocalDateTime());
-				return doctor;
+			statement=DbConnection.getConnection().prepareStatement(Queries.GETBYID);
+			statement.setInt(1, doctorId);
+			ResultSet resultSet=statement.executeQuery();
+			
+			while(resultSet.next()) {
+				doctor=new Doctor();
+				doctor.setDoctorId(resultSet.getInt(1));
+				doctor.setDoctorName(resultSet.getString(2));
+				doctor.setSpeciality(resultSet.getString(3));
+				doctor.setExperience(resultSet.getInt(4));
+				doctor.setFees(resultSet.getDouble(5));
+				doctor.setStartTime(resultSet.getTimestamp(6).toLocalDateTime());
+				doctor.setEndTime(resultSet.getTimestamp(7).toLocalDateTime());
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
-				if(ps!=null)
-					ps.close();
+				if(statement!=null)
+					statement.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
-		return null;
+		return doctor;
 	}
 
 	@Override
 	public boolean deleteDoctor(int doctorId) {
-		// TODO Auto-generated method stub
-		PreparedStatement ps=null;
+		PreparedStatement statement=null;
 		int check;
 		boolean flag=false;
 		try {
-			ps=DbConnection.getConnection().prepareStatement(Queries.DELETEDOCTOR);
-			ps.setInt(1, doctorId);
-			check=ps.executeUpdate();
+			statement=DbConnection.getConnection().prepareStatement(Queries.DELETEDOCTOR);
+			statement.setInt(1, doctorId);
+			check=statement.executeUpdate();
 			if(check==1)
 				flag=true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
-				if(ps!=null)
-					ps.close();
+				if(statement!=null)
+					statement.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -140,68 +124,61 @@ public class DoctorDaoImpl implements IDoctorDao {
 
 	@Override
 	public List<Doctor> getAllDoctors() {
-		// TODO Auto-generated method stub
 		List<Doctor> doctorList=new ArrayList<>();
-		PreparedStatement ps=null;
+		PreparedStatement statement=null;
 		try {
-			ps=DbConnection.getConnection().prepareStatement(Queries.GETALLDOCTORS);
-			ResultSet rs=ps.executeQuery();
-			while(rs.next()) {
+			statement=DbConnection.getConnection().prepareStatement(Queries.GETALLDOCTORS);
+			ResultSet resultSet=statement.executeQuery();
+			while(resultSet.next()) {
 				Doctor doctor=new Doctor();
-				doctor.setDoctorId(rs.getInt(1));
-				doctor.setDoctorName(rs.getString(2));
-				doctor.setSpeciality(rs.getString(3));
-				doctor.setExperience(rs.getInt(4));
-				doctor.setFees(rs.getDouble(5));
-				doctor.setStartTime(rs.getTimestamp(6).toLocalDateTime());
-				doctor.setEndTime(rs.getTimestamp(7).toLocalDateTime());
+				doctor.setDoctorId(resultSet.getInt(1));
+				doctor.setDoctorName(resultSet.getString(2));
+				doctor.setSpeciality(resultSet.getString(3));
+				doctor.setExperience(resultSet.getInt(4));
+				doctor.setFees(resultSet.getDouble(5));
+				doctor.setStartTime(resultSet.getTimestamp(6).toLocalDateTime());
+				doctor.setEndTime(resultSet.getTimestamp(7).toLocalDateTime());
 				doctorList.add(doctor);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
-				if(ps!=null)
-					ps.close();
+				if(statement!=null)
+					statement.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
 		return doctorList;
 	}
 
 	@Override
 	public List<Doctor> getBySpeciality(String speciality) {
-		// TODO Auto-generated method stub
 		List<Doctor> doctorList=new ArrayList<>();
-		PreparedStatement ps=null;
+		PreparedStatement statement=null;
 		try {
-			ps=DbConnection.getConnection().prepareStatement(Queries.GETBYSPECIALITY);
-			ps.setString(1, speciality);
-			ResultSet rs=ps.executeQuery();
-			while(rs.next()) {
+			statement=DbConnection.getConnection().prepareStatement(Queries.GETBYSPECIALITY);
+			statement.setString(1, speciality);
+			ResultSet resultSet=statement.executeQuery();
+			while(resultSet.next()) {
 				Doctor doctor=new Doctor();
-				doctor.setDoctorId(rs.getInt(1));
-				doctor.setDoctorName(rs.getString(2));
-				doctor.setSpeciality(rs.getString(3));
-				doctor.setExperience(rs.getInt(4));
-				doctor.setFees(rs.getDouble(5));
-				doctor.setStartTime(rs.getTimestamp(6).toLocalDateTime());
-				doctor.setEndTime(rs.getTimestamp(7).toLocalDateTime());
+				doctor.setDoctorId(resultSet.getInt(1));
+				doctor.setDoctorName(resultSet.getString(2));
+				doctor.setSpeciality(resultSet.getString(3));
+				doctor.setExperience(resultSet.getInt(4));
+				doctor.setFees(resultSet.getDouble(5));
+				doctor.setStartTime(resultSet.getTimestamp(6).toLocalDateTime());
+				doctor.setEndTime(resultSet.getTimestamp(7).toLocalDateTime());
 				doctorList.add(doctor);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
-				if(ps!=null)
-					ps.close();
+				if(statement!=null)
+					statement.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -210,34 +187,31 @@ public class DoctorDaoImpl implements IDoctorDao {
 
 	@Override
 	public List<Doctor> getBySpecialityAndExp(String speciality, int experience) {
-		// TODO Auto-generated method stub
 		List<Doctor> doctorList=new ArrayList<>();
-		PreparedStatement ps=null;
+		PreparedStatement statement=null;
 		try {
-			ps=DbConnection.getConnection().prepareStatement(Queries.GETBYSPECEXP);
-			ps.setString(1, speciality);
-			ps.setInt(2, experience);
-			ResultSet rs=ps.executeQuery();
-			while(rs.next()) {
+			statement=DbConnection.getConnection().prepareStatement(Queries.GETBYSPECEXP);
+			statement.setString(1, speciality);
+			statement.setInt(2, experience);
+			ResultSet resultSet=statement.executeQuery();
+			while(resultSet.next()) {
 				Doctor doctor=new Doctor();
-				doctor.setDoctorId(rs.getInt(1));
-				doctor.setDoctorName(rs.getString(2));
-				doctor.setSpeciality(rs.getString(3));
-				doctor.setExperience(rs.getInt(4));
-				doctor.setFees(rs.getDouble(5));
-				doctor.setStartTime(rs.getTimestamp(6).toLocalDateTime());
-				doctor.setEndTime(rs.getTimestamp(7).toLocalDateTime());
+				doctor.setDoctorId(resultSet.getInt(1));
+				doctor.setDoctorName(resultSet.getString(2));
+				doctor.setSpeciality(resultSet.getString(3));
+				doctor.setExperience(resultSet.getInt(4));
+				doctor.setFees(resultSet.getDouble(5));
+				doctor.setStartTime(resultSet.getTimestamp(6).toLocalDateTime());
+				doctor.setEndTime(resultSet.getTimestamp(7).toLocalDateTime());
 				doctorList.add(doctor);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
-				if(ps!=null)
-					ps.close();
+				if(statement!=null)
+					statement.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -246,71 +220,64 @@ public class DoctorDaoImpl implements IDoctorDao {
 
 	@Override
 	public List<Doctor> getBySpecialityAndFees(String speciality, double fees) {
-		// TODO Auto-generated method stub
 		List<Doctor> doctorList=new ArrayList<>();
-		PreparedStatement ps=null;
+		PreparedStatement statement=null;
 		try {
-			ps=DbConnection.getConnection().prepareStatement(Queries.GETBYSPECFEE);
-			ps.setString(1, speciality);
-			ps.setDouble(2, fees);
-			ResultSet rs=ps.executeQuery();
-			while(rs.next()) {
+			statement=DbConnection.getConnection().prepareStatement(Queries.GETBYSPECFEE);
+			statement.setString(1, speciality);
+			statement.setDouble(2, fees);
+			ResultSet resultSet=statement.executeQuery();
+			while(resultSet.next()) {
 				Doctor doctor=new Doctor();
-				doctor.setDoctorId(rs.getInt(1));
-				doctor.setDoctorName(rs.getString(2));
-				doctor.setSpeciality(rs.getString(3));
-				doctor.setExperience(rs.getInt(4));
-				doctor.setFees(rs.getDouble(5));
-				doctor.setStartTime(rs.getTimestamp(6).toLocalDateTime());
-				doctor.setEndTime(rs.getTimestamp(7).toLocalDateTime());
+				doctor.setDoctorId(resultSet.getInt(1));
+				doctor.setDoctorName(resultSet.getString(2));
+				doctor.setSpeciality(resultSet.getString(3));
+				doctor.setExperience(resultSet.getInt(4));
+				doctor.setFees(resultSet.getDouble(5));
+				doctor.setStartTime(resultSet.getTimestamp(6).toLocalDateTime());
+				doctor.setEndTime(resultSet.getTimestamp(7).toLocalDateTime());
 				doctorList.add(doctor);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
-				if(ps!=null)
-					ps.close();
+				if(statement!=null)
+					statement.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
 		return doctorList;
 	}
 
 	@Override
 	public List<Doctor> getByAvailable(LocalDateTime startTime) {
-		// TODO Auto-generated method stub
 		List<Doctor> doctorList=new ArrayList<>();
-		PreparedStatement ps=null;
+		PreparedStatement statement=null;
 		try {
-			ps=DbConnection.getConnection().prepareStatement(Queries.GETBYAVAIL);
-			ps.setTimestamp(1,Timestamp.valueOf(startTime));
-			ps.setTimestamp(2, Timestamp.valueOf(startTime));
-			ResultSet rs=ps.executeQuery();
-			while(rs.next()) {
+			statement=DbConnection.getConnection().prepareStatement(Queries.GETBYAVAIL);
+			statement.setTimestamp(1,Timestamp.valueOf(startTime));
+			statement.setTimestamp(2, Timestamp.valueOf(startTime));
+			ResultSet resultSet=statement.executeQuery();
+			while(resultSet.next()) {
 				Doctor doctor=new Doctor();
-				doctor.setDoctorId(rs.getInt(1));
-				doctor.setDoctorName(rs.getString(2));
-				doctor.setSpeciality(rs.getString(3));
-				doctor.setExperience(rs.getInt(4));
-				doctor.setFees(rs.getDouble(5));
-				doctor.setStartTime(rs.getTimestamp(6).toLocalDateTime());
-				doctor.setEndTime(rs.getTimestamp(7).toLocalDateTime());
+				doctor.setDoctorId(resultSet.getInt(1));
+				doctor.setDoctorName(resultSet.getString(2));
+				doctor.setSpeciality(resultSet.getString(3));
+				doctor.setExperience(resultSet.getInt(4));
+				doctor.setFees(resultSet.getDouble(5));
+				doctor.setStartTime(resultSet.getTimestamp(6).toLocalDateTime());
+				doctor.setEndTime(resultSet.getTimestamp(7).toLocalDateTime());
 				doctorList.add(doctor);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
-				if(ps!=null)
-					ps.close();
+				if(statement!=null)
+					statement.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
